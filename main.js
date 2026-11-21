@@ -117,24 +117,33 @@ function frame(now) {
 }
 requestAnimationFrame(frame);
 
-async function watchMeters() {
+// LUNA can report the session changing several times in a row while a window opens, so a bind
+// may start before the last one finished. Each bind takes a number; an older one stops as soon as
+// a newer one starts, so it can never unsubscribe the meters the newer one is watching.
+let bindGeneration = 0;
+
+async function watchMeters(generation) {
   if (!session) return;
   for (const track of session.visibleTracks) {
+    if (generation !== bindGeneration) return;
     if (watched.has(track.id)) continue;
     watched.add(track.id);
     await track.loadStrip();
+    if (generation !== bindGeneration) return;
     // Observing a meter subscribes to it; the frame loop reads track.meter.max.
     if (track.meter) keep(track.meter.onChange(() => {}));
   }
 }
 
 async function bindSession() {
+  const generation = ++bindGeneration;
   release();
   watched.clear();
   shown.clear();
   session = luna.sessions.current();
   if (!session) { $('status').textContent = 'no session open'; return; }
   await session.ready();
+  if (generation !== bindGeneration) return;
   $('status').textContent = session.name.value ?? '';
   const t = session.transport;
   const paint = () => {
@@ -143,8 +152,8 @@ async function bindSession() {
   };
   paint();
   keep(t.playing.onChange(paint));
-  keep(session.tracks.onChange(() => void watchMeters()));
-  await watchMeters();
+  keep(session.tracks.onChange(() => void watchMeters(generation)));
+  await watchMeters(generation);
 }
 
 async function connect() {
