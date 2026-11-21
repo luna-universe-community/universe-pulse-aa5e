@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pulse</title>
+  <style>
+    :root { color-scheme: dark; }
+    html, body { margin: 0; height: 100%; background: #05050a; overflow: hidden; }
+    canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+    #hud { position: absolute; left: 16px; top: 12px; font: 600 12px -apple-system, Helvetica, sans-serif; letter-spacing: 0.25em; color: rgba(255,255,255,0.35); text-transform: uppercase; pointer-events: none; transition: opacity 0.6s; }
+    #status { position: absolute; right: 16px; top: 12px; font: 12px -apple-system, Helvetica, sans-serif; color: rgba(255,255,255,0.3); pointer-events: none; }
+    body.playing #hud, body.playing #status { opacity: 0.15; }
+  </style>
+</head>
+<body>
+  <canvas id="c"></canvas>
+  <div id="hud">Pulse</div>
+  <div id="status">connecting...</div>
+  <script src="vendor/luna.global.js"></script>
+  <script src="logic.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

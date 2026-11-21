@@ -1,0 +1,24 @@
+{
+    "package_name": "Pulse",
+    "id": "com.cp.universe.pulseaa5e",
+    "title": "Pulse",
+    "version": "1.0.0",
+    "manufacturer": "Henry Hoover",
+    "description": "A visualiser for your second screen: every track gets a glowing ring in its own colour that pulses with its level, around a core that breathes with the whole mix, plus glow bars along the bottom. Built by Henry Hoover with SDK Controller.",
+    "categories": [
+        "Utility"
+    ],
+    "sdk_version": "3.1.2.65",
+    "min_luna_version": "3.1.2",
+    "engines": [
+        "luna"
+    ],
+    "html": "index.html",
+    "target": "window",
+    "floating": false,
+    "show_with_session": false,
+    "width": 1280,
+    "height": 720,
+    "min_width": 320,
+    "min_height": 240
+}
